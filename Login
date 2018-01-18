@@ -1,0 +1,20 @@
+import sock
+
+try:
+	for port in range(startPort,endPort):
+	        sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+		sock.settimeout(timeout)
+	        result=sock.connect_ex((remoteServerIP,port))
+	        if result == 0:
+	                print "Port {}:   Open".format(port)
+		else:
+			sys.exit()
+	        sock.close()
+
+except KeyboardInterrupt:
+	print "You pressed Ctrl+C"
+	sys.exit()
+
+except socket.gaierror:
+	print 'Hostname could not be resolved. Exiting'
+	sys.exit()
