@@ -5,7 +5,7 @@ try:
 	for port in range(22,24):
 	        sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 		sock.settimeout(5)
-	        result=sock.connect_ex((remoteServerIP,port))
+	        result=sock.connect_ex((IP,port))
 	        if result == 0:
 	                print "Port {}:   Open".format(port)
 		else:
