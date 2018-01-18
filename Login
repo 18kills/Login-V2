@@ -1,9 +1,10 @@
 import sock
+import sys
 
 try:
-	for port in range(startPort,endPort):
+	for port in range(22,24):
 	        sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-		sock.settimeout(timeout)
+		sock.settimeout(5)
 	        result=sock.connect_ex((remoteServerIP,port))
 	        if result == 0:
 	                print "Port {}:   Open".format(port)
