@@ -1,4 +1,4 @@
-import paramiko, sys, os, socket, threading, time
+import paramiko, sys, threading
 from datetime import datetime
 
 t1=datetime.now()
