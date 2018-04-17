@@ -23,8 +23,7 @@ def bruteforce(start,end,step):
                     found=True
                     break
                 except:
-                    pass
-                ssh.close()
+                    ssh.close()
             if found==True:
                 break
 
