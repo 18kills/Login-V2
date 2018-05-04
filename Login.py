@@ -83,6 +83,7 @@ def threads(numThreads,function,argument):
     while threading.activeCount()>activeThreads:
         pass
 #These are all the calls to the functions and where everything is printed
+print('╔╗──────────────╔╗──╔╦═══╗\n║║──────────────║╚╗╔╝║╔═╗║\n║║──╔══╦══╦╦═╗──╚╗║║╔╩╝╔╝║\n║║─╔╣╔╗║╔╗╠╣╔╗╦══╣╚╝║╔═╝╔╝\n║╚═╝║╚╝║╚╝║║║║╠══╩╗╔╝║║╚═╗\n╚═══╩══╩═╗╠╩╝╚╝───╚╝─╚═══╝\n───────╔═╝║\n───────╚══╝')
 threads(15,portScan,254)
 print(datetime.now()-t1)
 print("IP : open port : hostname")
