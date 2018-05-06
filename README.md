@@ -19,3 +19,6 @@ The usernames and passwords used are taken from the two text files
 If the correct username and password is found it will put the ip address, username, and password into a dictionary        
 
 This program should be used while a vpn is running
+
+
+All of the code in this program was written by me. I did not use anyone elses code for this program like I did in the original Login
